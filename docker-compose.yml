@@ -9,12 +9,20 @@ services:
       - "3306:3306"
     volumes:
       - ./data:/docker-entrypoint-initdb.d
-      - mysql_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
       timeout: 5s
       retries: 10
 
+  # ---------- ADMINER ----------
+  adminer:
+    image: adminer
+    ports:
+      - "8099:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      
 volumes:
-  mysql_data:
+  mysql-data:
